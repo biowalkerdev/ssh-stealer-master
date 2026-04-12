@@ -1,2 +1,10 @@
-# ssh-stealer-master
-Tool for stealing files from SSH servers
+## Functional
+- Currently supports only Linux directories
+
+## How to use
+Windows: python main.py <ip> -user <username> -passw <password>  
+Linux: python3 main.py <ip> -user <username> -passw <password>
+
+## Install Requirements
+Windows: Just double-click on install_req.bat  
+Linux: bash install_req.sh
