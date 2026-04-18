@@ -1,5 +1,5 @@
 ## Functional
-- Currently supports only Linux directories
+- Supports Windows and Linux directories
 
 ## How to use
 Windows: ```python main.py <ip> -user <username> -passw <password>```  
